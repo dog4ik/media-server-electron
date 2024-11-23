@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, Menu } from "electron";
 import path from "path";
 
 function createWindow() {
@@ -6,6 +6,7 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    titleBarStyle: "hiddenInset",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -22,6 +23,7 @@ function createWindow() {
       );
     }
   });
+  Menu.setApplicationMenu(null);
 
   ipcMain.on("load-url", (_event, url) => {
     mainWindow.loadURL(url);
