@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain, Menu, screen } from "electron";
 import path from "path";
 
+const options = { extraHeaders: "pragma: no-cache\n" };
+
 function createWindow() {
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.bounds;
@@ -15,10 +17,10 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadURL("http://127.0.0.1:6969");
+  mainWindow.loadURL("http://127.0.0.1:6969", options);
   mainWindow.webContents.on("did-fail-load", () => {
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-      mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+      mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL, options);
       mainWindow.webContents.openDevTools();
     } else {
       mainWindow.loadFile(
@@ -29,7 +31,7 @@ function createWindow() {
   Menu.setApplicationMenu(null);
 
   ipcMain.on("load-url", (_event, url) => {
-    mainWindow.loadURL(url);
+    mainWindow.loadURL(url, options);
   });
 }
 
