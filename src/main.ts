@@ -14,6 +14,7 @@ function createWindow() {
     titleBarStyle: "hiddenInset",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      experimentalFeatures: true,
     },
   });
 
